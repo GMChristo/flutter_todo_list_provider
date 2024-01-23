@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_conditional_assignment
 
+import 'package:flutter_to_do_list_provider/app/core/database/sqlite_migration_factory.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
@@ -52,7 +53,25 @@ class SqliteConnectionFactory {
     await db.execute('PRAGMA foreign_keys = ON');
   }
 
-  Future<void> _onCreate(Database db, int version) async {}
-  Future<void> _onUpgrade(Database db, int oldVersion, int version) async {}
+  Future<void> _onCreate(Database db, int version) async {
+    final batch = db.batch();
+    final migrations = SqliteMigrationFactory().getCretateMigration();
+    for (var migration in migrations) {
+      migration.create(batch);
+    }
+
+    batch.commit();
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int version) async {
+    final batch = db.batch();
+    final migrations = SqliteMigrationFactory().getUpdateMigration(oldVersion);
+    for (var migration in migrations) {
+      migration.upgrade(batch);
+    }
+
+    batch.commit();
+  }
+
   Future<void> _onDowngrade(Database db, int oldVersion, int version) async {}
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_to_do_list_provider/app/core/database/sqlite_adm_connection.dart';
 import 'package:flutter_to_do_list_provider/app/core/ui/todo_list_ui_config.dart';
-import 'package:flutter_to_do_list_provider/app/models/auth/auth_module.dart';
+import 'package:flutter_to_do_list_provider/app/modules/auth/auth_module.dart';
 import 'package:flutter_to_do_list_provider/app/modules/splash/splash_page.dart';
 
 class AppWidget extends StatefulWidget {

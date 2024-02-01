@@ -5,6 +5,7 @@ import 'package:flutter_to_do_list_provider/app/core/database/sqlite_connection_
 import 'package:flutter_to_do_list_provider/app/repositories/user/user_repository.dart';
 import 'package:flutter_to_do_list_provider/app/repositories/user/user_repository_impl.dart';
 import 'package:flutter_to_do_list_provider/app/services/user/user_service.dart';
+import 'package:flutter_to_do_list_provider/app/services/user/user_service_impl.dart';
 import 'package:provider/provider.dart';
 
 class AppModule extends StatelessWidget {
@@ -25,7 +26,8 @@ class AppModule extends StatelessWidget {
           ),
         ),
         Provider<UserService>(
-          create: (context) => context.read(),
+          // create: (context) => context.read(),
+          create: (context) => UserServiceImpl(userRepository: context.read()),
         ),
       ],
       child: const AppWidget(),

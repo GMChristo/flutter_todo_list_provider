@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_to_do_list_provider/app/core/notifier/default_listener_notifier.dart';
 import 'package:flutter_to_do_list_provider/app/core/ui/theme_extensions.dart';
 import 'package:flutter_to_do_list_provider/app/core/validators/validators.dart';
 import 'package:flutter_to_do_list_provider/app/core/widget/todo_list_field.dart';
@@ -23,21 +24,19 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    context.read<RegisterController>().addListener(() {
-      final controller = context.read<RegisterController>();
-      var success = controller.success;
-      var error = controller.error;
-      if (success) {
+    final defaultListener = DefaultListenerNotifier(changeNotifier: context.read<RegisterController>());
+    defaultListener.listener(
+      context: context,
+      successCallback: (notifier, listenerInstance) {
+        listenerInstance.dispose();
         Navigator.of(context).pop();
-      } else if (error != null && error.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(error),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    });
+      },
+
+      ///atributo opcional
+      // errorCallBack: (notifier, listenerInstance) {
+      //   print('Deu Ruim');
+      // },
+    );
   }
 
   @override

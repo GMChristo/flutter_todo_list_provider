@@ -27,6 +27,7 @@ class DefaultListenerNotifier {
           if (errorCallBack != null) {
             errorCallBack(changeNotifier, this);
           }
+          Messages.of(context).showError(changeNotifier.error ?? 'Erro interno');
         } else if (changeNotifier.isSuccess) {
           successCallback(changeNotifier, this);
         }
